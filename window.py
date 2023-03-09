@@ -1,15 +1,18 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow,QPushButton,QWidget
-from PyQt6.QtCore import QSize, Qt
 
+from PyQt6.QtWidgets import *
 
 class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-
-        self.setWindowTitle("App")
-        button = QPushButton("Button")
-        button.setFixedSize(QSize(100, 100))
-
-        self.setFixedSize(QSize(500, 500))
-        self.setCentralWidget(button)
-      
+    def closeEvent(self, e):
+        if not text.document().isModified():
+            return
+        answer = QMessageBox.question(
+            window, None,
+            "You have unsaved changes. Save before closing?",
+            QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel
+        )
+        if answer & QMessageBox.Save:
+            save()
+            if text.document().isModified():
+                e.ignore()
+        elif answer & QMessageBox.Cancel:
+            e.ignore()
